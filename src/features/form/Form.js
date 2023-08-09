@@ -1,40 +1,92 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateForm } from './formSlice';
+import {
+	setFirstName,
+	setLastName,
+	setEmail,
+	setMessage,
+	submitForm,
+	selectCurrentForm,
+	selectSubmissions,
+} from './formSlice';
+import './Form.module.css';
 
 export function Form() {
 	const dispatch = useDispatch();
-	const formState = useSelector((state) => state.form);
+	const currentForm = useSelector(selectCurrentForm);
+	const submissions = useSelector(selectSubmissions); // Get the submissions
 
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		dispatch(updateForm({ [name]: value }));
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (Object.keys(currentForm.errors).length === 0) {
+			// Handle successful submission
+			dispatch(submitForm());
+
+			// Log the form submissions from the store
+			console.log('All form submissions:', submissions);
+		}
 	};
 
 	return (
-		<div>
-			<input
-				name="firstName"
-				value={formState.firstName}
-				onChange={handleChange}
-			/>
-			<input
-				name="lastName"
-				value={formState.lastName}
-				onChange={handleChange}
-			/>
-			<input
-				name="email"
-				value={formState.email}
-				onChange={handleChange}
-			/>
-			<textarea
-				name="message"
-				value={formState.message}
-				onChange={handleChange}
-			/>
-		</div>
+		<form onSubmit={handleSubmit}>
+			<label>
+				First Name:
+				<input
+					type="text"
+					value={currentForm.firstName}
+					onChange={(e) => dispatch(setFirstName(e.target.value))}
+					required
+				/>
+			</label>
+			{currentForm.errors.firstName && (
+				<div className="error">{currentForm.errors.firstName}</div>
+			)}
+			<br />
+			<label>
+				Last Name:
+				<input
+					type="text"
+					value={currentForm.lastName}
+					onChange={(e) => dispatch(setLastName(e.target.value))}
+					required
+				/>
+			</label>
+			{currentForm.errors.lastName && (
+				<div className="error">{currentForm.errors.lastName}</div>
+			)}
+			<br />
+			<label>
+				Email:
+				<input
+					type="email"
+					value={currentForm.email}
+					onChange={(e) => dispatch(setEmail(e.target.value))}
+					required
+				/>
+			</label>
+			{currentForm.errors.email && (
+				<div className="error">{currentForm.errors.email}</div>
+			)}
+			<br />
+			<label>
+				Message:
+				<textarea
+					value={currentForm.message}
+					onChange={(e) => dispatch(setMessage(e.target.value))}
+					required
+				/>
+			</label>
+			{currentForm.errors.message && (
+				<div className="error">{currentForm.errors.message}</div>
+			)}
+			<br />
+			<button
+				type="submit"
+				disabled={Object.keys(currentForm.errors).length > 0}
+			>
+				Submit
+			</button>
+		</form>
 	);
 }
-
-//export default Form;
