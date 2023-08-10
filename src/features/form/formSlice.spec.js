@@ -1,16 +1,13 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import { Form } from './Form';
 import { Provider } from 'react-redux';
-//import store from '../../app/store'; // Import the store from your app
 import configureMockStore from 'redux-mock-store';
 import formReducer, { addFormEntry } from './formSlice';
-// Other imports...
 
 const mockStore = configureMockStore();
 const initialState = {
 	form: {
 		entries: [],
-		// Other initial state...
 	},
 };
 
