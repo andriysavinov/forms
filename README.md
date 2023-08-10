@@ -1,46 +1,37 @@
-# Getting Started with Create React App and Redux
+# **Forms with Validation**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+## Application Description
 
-## Available Scripts
+_Forms with Validation_ is a dynamic web application created using React, specifically tailored to manage user information with precision and efficiency. Utilizing the cra-template-redux template, it integrates Redux Toolkit for state management, making handling of data seamless and predictable. The application is designed around two primary components: a Form component and a StoredValuesList component.
 
-In the project directory, you can run:
+The Form component is the core of the application, allowing users to enter personal details such as First Name, Last Name, Email, and a Message. The input is validated using the Validator library to ensure correctness and completeness. The StoredValuesList component acts as a display panel for all the submitted entries, neatly organized and stored in the Redux store. Whether it's for user registration or gathering feedback, "Forms with Validation" provides a clean, intuitive interface designed for users at all levels of expertise.
 
-### `npm start`
+### How to Install/Run the Application Locally
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Clone the Repository**
+   `git clone https://github.com/andriysavinov/forms.git`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. **Navigate to the Directory**
+   `cd forms`
 
-### `npm test`
+3. **Install Dependencies**
+   Make sure you have Node.js and npm installed in your system. Run the following command to install all the necessary dependencies:
+   `npm install`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. **Start the Local Development Server**
+   Run the following command to start the application. By default, it will be available at http://localhost:3000.
+   `npm start`
 
-### `npm run build`
+5. **Build for Production (Optional)**
+   If you wish to create a production build, you can run:
+   `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-   **Form Component**: Input fields for First Name, Last Name, Email, and Message with validation.
+-   **StoredValuesList Component**: Component: Displays a list of values (entries) in the Redux store.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Additional Information
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+-   If you encounter any issues or need further assistance, please open an issue in the GitHub repository.
+-   Feel free to contribute or suggest improvements.
