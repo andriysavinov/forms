@@ -1,92 +1,102 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-	setFirstName,
-	setLastName,
-	setEmail,
-	setMessage,
-	submitForm,
-	selectCurrentForm,
-	selectSubmissions,
-} from './formSlice';
-import './Form.module.css';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addFormEntry } from './formSlice';
+import validator from 'validator';
+import styles from './Form.module.css';
 
-export function Form() {
+export const Form = () => {
 	const dispatch = useDispatch();
-	const currentForm = useSelector(selectCurrentForm);
-	const submissions = useSelector(selectSubmissions); // Get the submissions
+	const [formData, setFormData] = useState({
+		first_name: '',
+		last_name: '',
+		email: '',
+		message: '',
+	});
+	const [errors, setErrors] = useState({});
+
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		setFormData({ ...formData, [name]: value });
+	};
+
+	const validateForm = () => {
+		let formErrors = {};
+		if (!formData.first_name)
+			formErrors.first_name = 'First name is required';
+		if (!formData.last_name) formErrors.last_name = 'Last name is required';
+		if (!validator.isEmail(formData.email))
+			formErrors.email = 'Enter a valid email';
+		if (formData.message.length < 10)
+			formErrors.message = 'Message must be at least 10 characters long';
+
+		setErrors(formErrors);
+		return Object.keys(formErrors).length === 0;
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		if (Object.keys(currentForm.errors).length === 0) {
-			// Handle successful submission
-			dispatch(submitForm());
-
-			// Log the form submissions from the store
-			console.log('All form submissions:', submissions);
+		if (validateForm()) {
+			dispatch(addFormEntry(formData));
+			alert('Form submitted successfully!'); // Alert to display success message
+			console.log('Information recorded:', formData); // Logging the recorded information
+			setFormData({
+				first_name: '',
+				last_name: '',
+				email: '',
+				message: '',
+			});
 		}
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<label>
-				First Name:
+		<div>
+			<h2>Form</h2>
+			<form onSubmit={handleSubmit}>
 				<input
 					type="text"
-					value={currentForm.firstName}
-					onChange={(e) => dispatch(setFirstName(e.target.value))}
-					required
+					name="first_name"
+					placeholder="First Name"
+					value={formData.first_name}
+					onChange={handleInputChange}
 				/>
-			</label>
-			{currentForm.errors.firstName && (
-				<div className="error">{currentForm.errors.firstName}</div>
-			)}
-			<br />
-			<label>
-				Last Name:
+				{errors.first_name && (
+					<div className={styles.error}>{errors.first_name}</div>
+				)}
+
 				<input
 					type="text"
-					value={currentForm.lastName}
-					onChange={(e) => dispatch(setLastName(e.target.value))}
-					required
+					name="last_name"
+					placeholder="Last Name"
+					value={formData.last_name}
+					onChange={handleInputChange}
 				/>
-			</label>
-			{currentForm.errors.lastName && (
-				<div className="error">{currentForm.errors.lastName}</div>
-			)}
-			<br />
-			<label>
-				Email:
+				{errors.last_name && (
+					<div className={styles.error}>{errors.last_name}</div>
+				)}
+
 				<input
 					type="email"
-					value={currentForm.email}
-					onChange={(e) => dispatch(setEmail(e.target.value))}
-					required
+					name="email"
+					placeholder="Email"
+					value={formData.email}
+					onChange={handleInputChange}
 				/>
-			</label>
-			{currentForm.errors.email && (
-				<div className="error">{currentForm.errors.email}</div>
-			)}
-			<br />
-			<label>
-				Message:
+				{errors.email && (
+					<div className={styles.error}>{errors.email}</div>
+				)}
+
 				<textarea
-					value={currentForm.message}
-					onChange={(e) => dispatch(setMessage(e.target.value))}
-					required
+					name="message"
+					placeholder="Message"
+					value={formData.message}
+					onChange={handleInputChange}
 				/>
-			</label>
-			{currentForm.errors.message && (
-				<div className="error">{currentForm.errors.message}</div>
-			)}
-			<br />
-			<button
-				type="submit"
-				disabled={Object.keys(currentForm.errors).length > 0}
-			>
-				Submit
-			</button>
-		</form>
+				{errors.message && (
+					<div className={styles.error}>{errors.message}</div>
+				)}
+
+				<button type="submit">Submit</button>
+			</form>
+		</div>
 	);
-}
+};
